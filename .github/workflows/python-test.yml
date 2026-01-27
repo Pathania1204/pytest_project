@@ -1,4 +1,4 @@
-name: Python Tests
+name: CI pipeline
 
 on:
   push:
@@ -26,4 +26,16 @@ jobs:
 
       - name: Run tests
         run: python -m pytest
+
+      - name: Build Artifact
+        run: |
+          mkdir build
+          cp app.py requirements.txt build/
+          tar -czf app.tar.gz build/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-artifact
+          path: app.tar.gz
 
